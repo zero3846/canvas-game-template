@@ -6,7 +6,7 @@ This is a template project for basic HTML canvas games using the 2D rendering co
 Debug mode can be enabled during runtime with the backtick <kbd>\`</kbd> key.
 
 Register debug watch values with the `registerDebugWatch()` method at the very beginning
-of the `start()` method. This will allow you to display runtime values in the debug
+of the `initGame()` method. This will allow you to display runtime values in the debug
 overlay. Use `updateDebugWatch()` to update the display with a new value.
 
 ## File Overview

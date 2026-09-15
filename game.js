@@ -1,6 +1,6 @@
 import { getImage, loadImage } from "./images.js";
 import { setupInputEventHandlers } from "./inputs.js";
-import { isDebugEnabled } from "./main.js";
+import { enableDebug, isDebugEnabled, registerDebugWatch } from "./main.js";
 
 /**
  * @typedef {number} Direction
@@ -48,6 +48,11 @@ let currentDirection = Direction.NONE;
 let assetsLoaded = false;
 
 export function initGame() {
+    enableDebug(true);
+    registerDebugWatch("keydown");
+    registerDebugWatch("keyup");
+    registerDebugWatch("direction", Direction.toString(getCurrentDirection()));
+
     setupInputEventHandlers();
     
     loadAssets().then(r => assetsLoaded = true);
@@ -79,7 +84,7 @@ export function onFrameUpdate(currentTime) {
  */
 export function onFrameRender(context) {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    
+
     let x = 128;
     let y = 128;
 

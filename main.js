@@ -18,7 +18,7 @@ const frameTimeWait = fpsTarget != null ? 1.0 / fpsTarget * 1000 : undefined;
  * Enable/disable logging of debug information.
  * @type {boolean}
  */
-let debug = true;
+let debug = false;
 
 /**
  * The measured frames-per-second.
@@ -56,9 +56,6 @@ function start() {
     overlay.style.visibility = debug ? "visible" : "hidden";
     
     registerDebugWatch("fps");
-    registerDebugWatch("keydown");
-    registerDebugWatch("keyup");
-    registerDebugWatch("direction", Direction.toString(getCurrentDirection()));
 
     const canvas = document.querySelector("#main");
 
