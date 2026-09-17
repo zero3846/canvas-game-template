@@ -39,7 +39,7 @@ function animate(currentTime) {
 
     onFrameUpdate(currentTime);
 
-    if (fpsTarget <= 0) {
+    if (fpsTarget > 0) {
         if (elapsedTime >= frameTimeWait) {
             frameLastTime = currentTime;
             frameCount++;
