@@ -1,11 +1,11 @@
 import express from "express";
 import path from "path";
 
-const __dirname = path.dirname(import.meta.dirname);
-
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'dist')));
+
+// TODO: Define API to act as a controller if the app needs to persist data
 
 const port = 3000;
 app.listen(port, () => {
