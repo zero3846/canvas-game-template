@@ -64,8 +64,8 @@ export function initGame() {
  */
 export async function loadAssets() {
     return Promise.all([
-        loadImage("mouse", "assets/mouse.png"),
-        loadImage("cheese", "assets/cheese.png"),
+        loadImage("mouse", "images/mouse.png"),
+        loadImage("cheese", "images/cheese.png"),
     ]);
 }
 
