@@ -1,5 +1,5 @@
 import { isDebugEnabled, registerDebugWatch, updateDebugWatch } from "./debug.js";
-import { Direction, getCurrentDirection, initGame, onFrameRender, onFrameUpdate } from "./game.js";
+import { initGame, onFrameRender, onFrameUpdate } from "./game.js";
 
 /** @type {HTMLElement} */
 const overlay = document.querySelector("#debugOverlay");
