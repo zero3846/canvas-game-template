@@ -1,5 +1,5 @@
+import { enableDebug, isDebugEnabled, updateDebugWatch } from "./debug.js";
 import { decomposeDirection, Direction, getCurrentDirection, setCurrentDirection } from "./game.js";
-import { enableDebug, isDebugEnabled, updateDebugWatch } from "./main.js";
 
 let leftRight = 0;
 let upDown = 0;

@@ -1,6 +1,6 @@
+import { enableDebug, registerDebugWatch } from "./debug.js";
 import { getImage, loadImage } from "./images.js";
 import { setupInputEventHandlers } from "./inputs.js";
-import { enableDebug, isDebugEnabled, registerDebugWatch } from "./main.js";
 
 /**
  * @typedef {number} Direction
