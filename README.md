@@ -39,6 +39,6 @@ Each game will generally have the following files:
 
 | File         | Description                                                                           |
 | ------------ | ------------------------------------------------------------------------------------- |
-| `game.js`    | Contains the game logic. Must call `startGameLoop()` from `src/core/main.js` on load. |
+| `game.js`    | Contains the game logic. Must call `startGameLoop()` from `src/core/setup.js` on load. |
 | `inputs.js`  | Sets up event handlers and maps all user input to game actions.                       |
 | `index.html` | The entry point for the game.                                                         |
