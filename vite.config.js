@@ -6,7 +6,7 @@ export default defineConfig({
         host: "localhost",
         port: 3000
     },
-    root: "app",
+    root: "src",
     publicDir: resolve(import.meta.dirname, "public"),
     build: {
         outDir: resolve(import.meta.dirname, "dist"),

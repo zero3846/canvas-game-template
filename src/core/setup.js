@@ -1,5 +1,4 @@
 import { isDebugEnabled, registerDebugWatch, updateDebugWatch } from "./debug.js";
-import { initGame, onFrameRender, onFrameUpdate } from "./game.js";
 
 /** @type {HTMLElement} */
 const overlay = document.querySelector("#debugOverlay");
@@ -21,41 +20,15 @@ canvas.width = canvas.clientWidth * dpr;
 canvas.height = canvas.clientHeight * dpr;
 context.scale(dpr, dpr);
 
-// The max frames-per-second to render the game at.
-// Set to 0 or less if there should be no set maximum.
-const fpsTarget = 5;
-
 // The time to wait (in milliseconds) until rendering the next frame.
-const frameTimeWait = 1.0 / fpsTarget * 1000;
+// 200 ms equates to a framerate of 5 fps.
+let frameTimeWait = 200;
 
 // The number of frames rendered since the last FPS measurement.
 let frameCount = 0;
 
 // The last time (in milliseconds) that a frame was rendered.
 let frameLastTime = 0;
-
-function animate(currentTime) {
-    const elapsedTime = currentTime - frameLastTime;
-
-    onFrameUpdate(currentTime);
-
-    if (fpsTarget > 0) {
-        if (elapsedTime >= frameTimeWait) {
-            frameLastTime = currentTime;
-            frameCount++;
-            onFrameRender(context);
-        }
-    } else {
-        frameCount++;
-        onFrameRender(context);
-    }
-
-    // Continue the render loop
-    requestAnimationFrame(animate);
-}
-
-// Start the render loop
-requestAnimationFrame(animate);
 
 // Refresh the FPS measurement
 registerDebugWatch("fps");
@@ -67,4 +40,30 @@ setInterval(() => {
     frameCount = 0;
 }, 1000);
 
-initGame();
+export function startMainLoop(onFrameUpdate, onFrameRender) {
+    function animate(currentTime) {
+        const elapsedTime = currentTime - frameLastTime;
+
+        onFrameUpdate(currentTime);
+
+        if (elapsedTime >= frameTimeWait) {
+            frameLastTime = currentTime;
+            frameCount++;
+            onFrameRender(context);
+        }
+
+        // Continue the render loop
+        requestAnimationFrame(animate);
+    }
+
+    // Start the render loop
+    requestAnimationFrame(animate);
+}
+
+/**
+ * Sets the target framerate target for the game.
+ * @param {number} target The target framerate in frames-per-second.
+ */
+export function setFramerate(framerate) {
+    frameTimeWait = 1.0 / framerate * 1000;
+}
