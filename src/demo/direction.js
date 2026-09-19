@@ -1,16 +1,18 @@
+let enumeration = 0;
+
 /**
  * @typedef {number} Direction
  */
 export const Direction = Object.freeze({
-    NONE:       0,
-    NORTH:      1,
-    SOUTH:      2,
-    WEST:       3,
-    EAST:       4,
-    NORTHWEST:  5,
-    NORTHEAST:  6,
-    SOUTHWEST:  7,
-    SOUTHEAST:  8,
+    NONE:       enumeration++,
+    NORTH:      enumeration++,
+    SOUTH:      enumeration++,
+    WEST:       enumeration++,
+    EAST:       enumeration++,
+    NORTHWEST:  enumeration++,
+    NORTHEAST:  enumeration++,
+    SOUTHWEST:  enumeration++,
+    SOUTHEAST:  enumeration++,
 
     /**
      * Convert direction to string.
@@ -61,4 +63,26 @@ export function decomposeDirection(direction) {
         movingNorth ? Direction.NORTH : movingSouth ? Direction.SOUTH : Direction.NONE,
         movingWest ? Direction.WEST : movingEast ? Direction.EAST : Direction.NONE
     ];
+}
+
+/**
+ * The current direction the player is headed.
+ * @type {Direction}
+ */
+let currentDirection = Direction.NONE;
+
+/**
+ * Gets the current direction.
+ * @returns {Direction} The current direction.
+ */
+export function getCurrentDirection() {
+    return currentDirection;
+}
+
+/**
+ * Sets the current direction.
+ * @param {Direction} direction
+ */
+export function setCurrentDirection(direction) {
+    currentDirection = direction;
 }
