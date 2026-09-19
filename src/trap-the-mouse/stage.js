@@ -3,12 +3,14 @@ import { Direction } from "./direction.js";
 import { Renderable } from "./renderable.js";
 import { Cheese, Farmer, Mouse, MouseTrap, Sprite } from "./sprite.js";
 
+/** @typedef {number} CellValue */
 const CellValue = {
     NOTHING:        0b00,
     HAS_TOP_WALL:   0b01,
     HAS_LEFT_WALL:  0b10,
 };
 
+/** @typedef {string} Mark */
 const Mark = {
     WALL_ROW: ">",
     WALL_COL: "V",
@@ -20,6 +22,7 @@ const Mark = {
     MOUSETRAP: "T",
 };
 
+/** @typedef {number} StageState */
 export const StageState = {
     PLAY: 0,
     WIN: 1,
@@ -223,7 +226,7 @@ export class Stage extends Renderable {
     /**
      * 
      * @param {StageCoord} c 
-     * @param {number} direction 
+     * @param {Direction} direction 
      */
     neighbor(c, direction) {
         switch (direction) {
@@ -282,7 +285,7 @@ export class Stage extends Renderable {
     /**
      * 
      * @param {StageCoord} start
-     * @param {number} direction 
+     * @param {Direction} direction 
      */
     isMoveAllowed(start, direction) {
         if (this.stageState != StageState.PLAY) {
