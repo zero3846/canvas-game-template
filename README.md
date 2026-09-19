@@ -19,17 +19,16 @@ Register debug watch values with the `registerDebugWatch()` method at the very b
 
 ## Folder Structure
 
-| Folder          | Description                |
-| --------------- | -------------------------- |
-| `dist`          | The frontend build folder. |
-| `public`        | Static resources.          |
-| `public/images` | Static images.             |
-| `src`           | The root source directory. |
-| `src/core`      | Shared modules.            |
-| `src/game1`     | Modules for game1.         |
-| `src/game2`     | Modules for game2.         |
-| `src/game3`     | Modules for game3.         |
-| `src/server`    | Shared server modules.     |
+| Folder       | Description                |
+| ------------ | -------------------------- |
+| `dist`       | The frontend build folder. |
+| `public`     | Static resources.          |
+| `src`        | The root source directory. |
+| `src/core`   | Shared modules.            |
+| `src/game1`  | Modules for game1.         |
+| `src/game2`  | Modules for game2.         |
+| `src/game3`  | Modules for game3.         |
+| `src/server` | Shared server modules.     |
 
 ### Game Folder Structure
 
@@ -37,8 +36,8 @@ The folder structure is generally organized by features, with the primary featur
 
 Each game will generally have the following files:
 
-| File         | Description                                                                           |
-| ------------ | ------------------------------------------------------------------------------------- |
+| File         | Description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
 | `game.js`    | Contains the game logic. Must call `startGameLoop()` from `src/core/setup.js` on load. |
-| `inputs.js`  | Sets up event handlers and maps all user input to game actions.                       |
-| `index.html` | The entry point for the game.                                                         |
+| `inputs.js`  | Sets up event handlers and maps all user input to game actions.                        |
+| `index.html` | The entry point for the game.                                                          |

@@ -4,6 +4,9 @@ import { setFramerate, startMainLoop } from "../core/setup.js";
 import { Direction } from "./direction.js";
 import { setupInputEventHandlers } from "./inputs.js";
 
+import cheeseImageUrl from "./images/cheese.png";
+import mouseImageUrl from "./images/mouse.png";
+
 /**
  * The current direction the player is headed.
  * @type {Direction}
@@ -31,8 +34,8 @@ startMainLoop(onFrameUpdate, onFrameRender);
  */
 async function loadAssets() {
     return Promise.all([
-        loadImage("mouse", "/images/mouse.png"),
-        loadImage("cheese", "/images/cheese.png"),
+        loadImage("mouse", mouseImageUrl),
+        loadImage("cheese", cheeseImageUrl),
     ]);
 }
 
