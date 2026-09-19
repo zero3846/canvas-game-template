@@ -1,6 +1,6 @@
 import { getImage } from "../core/images.js";
+import { Direction } from "./direction.js";
 import { Layer, Renderable } from "./renderable.js";
-import { Direction } from "./stage.js";
 
 export class Sprite extends Renderable {
     constructor(type, state, cellSize) {

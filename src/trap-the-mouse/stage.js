@@ -1,13 +1,6 @@
+import { Direction } from "./direction.js";
 import { Layer, Renderable } from "./renderable.js";
 import { Cheese, Farmer, Mouse, MouseTrap, Sprite } from "./sprite.js";
-
-export const Direction = {
-    NONE: -1,
-    UP: 0,
-    DOWN: 1,
-    LEFT: 2,
-    RIGHT: 3
-}
 
 const CellValue = {
     NOTHING:        0b00,
@@ -253,7 +246,7 @@ export class Stage extends Renderable {
                 col: c.col + 1
             };
         }
-        throw new Error("Invalid direction: " + direction);
+        throw new Error("Invalid direction: " + Direction.toString(direction));
     }
 
     layTrap(coord) {

@@ -17,7 +17,7 @@ body {
 #container {
     position: relative;
     aspect-ratio: 4 / 3;
-    width: 600px;
+    width: 800px;
     height: auto;
 }
 
