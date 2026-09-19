@@ -1,6 +1,10 @@
 import { enableDebug, isDebugEnabled, updateDebugWatch } from "../core/debug.js";
 import { Direction } from "./direction.js";
-import { getCurrentDirection, setCurrentDirection } from "./game.js";
+import { getScene, layTrap, moveFarmer } from "./game.js";
+
+
+let directionQueue = [];
+let directionQueueLimit = 1;
 
 /**
  * Sets up the input event handlers for the game.
@@ -12,6 +16,33 @@ export function setupInputEventHandlers() {
     });
 }
 
+export function advanceDirectionQueue() {
+    const { stage } = getScene();
+    const { farmer } = stage;
+    if (!farmer.isAdvanceable() && directionQueue.length > 0) {
+        const direction = directionQueue.pop();
+        moveFarmer(direction);
+    }
+}
+
+function onDirectionInput(direction) {
+    const { stage } = getScene();
+    if (stage == null) {
+        return;
+    }
+
+    const { farmer, mousetraps } = stage;
+    if (farmer.isAdvanceable() || directionQueue.length > 0) {
+        // Limit the queued inputs or it starts to feel very laggy.
+        if (directionQueue.length < directionQueueLimit) {
+            directionQueue.push(direction);
+        }
+        return;
+    }
+
+    moveFarmer(direction);
+}
+
 /**
  * The callback method for 'keydown' events.
  * @param {KeyboardEvent} e 
@@ -21,21 +52,17 @@ function onKeyDown(e) {
         updateDebugWatch("keydown", e.key);
     }
 
-    const currentDirection = getCurrentDirection();
-
     if (e.key === "`") {
         enableDebug(!isDebugEnabled());
     } else if (e.key === "ArrowUp") {
-        setCurrentDirection(Direction.UP);
+        onDirectionInput(Direction.UP);
     } else if (e.key === "ArrowDown") {
-        setCurrentDirection(Direction.DOWN);
+        onDirectionInput(Direction.DOWN);
     } else if (e.key === "ArrowLeft") {
-        setCurrentDirection(Direction.LEFT);
+        onDirectionInput(Direction.LEFT);
     } else if (e.key === "ArrowRight") {
-        setCurrentDirection(Direction.RIGHT);
-    }
-
-    if (isDebugEnabled()) {
-        updateDebugWatch("direction", Direction.toString(getCurrentDirection()));
+        onDirectionInput(Direction.RIGHT);
+    } else if (e.key === "f") {
+        layTrap();
     }
 }

@@ -9,7 +9,7 @@ import mousetrap_base_url from "./images/mousetrap_base.png";
 import mousetrap_set_url from "./images/mousetrap_set.png";
 import mousetrap_swing_url from "./images/mousetrap_swing.png";
 import mousetrap_whack_url from "./images/mousetrap_whack.png";
-import { setupInputEventHandlers } from "./inputs.js";
+import { advanceDirectionQueue, setupInputEventHandlers } from "./inputs.js";
 import { Scene } from "./scene.js";
 import { isSameCoord, StageState } from "./stage.js";
 
@@ -21,12 +21,8 @@ let currentDirection = Direction.NONE;
 
 const scene = new Scene();
 
-let inputBuffer = [];
-let inputLimit = 1;
-
 enableDebug(true);
 registerDebugWatch("keydown");
-registerDebugWatch("direction", Direction.toString(getCurrentDirection()));
 
 setFramerate(15);
 setupInputEventHandlers();
@@ -62,6 +58,10 @@ export function getLoadProgress() {
     return assetsLoaded / assetsToLoad;
 }
 
+export function getScene() {
+    return scene;
+}
+
 /**
  * Update the game state whenever the requested animation frame callback
  * is called.
@@ -79,15 +79,12 @@ function onFrameUpdate(currentTime) {
             sprite.advanceFrame();
         }
     }
-
-    const { farmer } = stage;
-    if (!farmer.isAdvanceable() && inputBuffer.length > 0) {
-        const direction = inputBuffer.pop();
-        moveFarmer(direction);
-    }
+    
+    advanceDirectionQueue()
 
     // Only check the game state when all sprites have
     // completed their moves.
+    const { farmer } = stage;
     if (stage.stageState !== StageState.PLAY) {
         let spritesStoppedMoving = true;
         for (const sprite of sprites) {
@@ -100,7 +97,7 @@ function onFrameUpdate(currentTime) {
             onGameEnd();
         }
     }
-    
+
     scene.update();
 }
 
@@ -117,40 +114,6 @@ function onAssetsReady() {
     setInterval(() => moveMice(), 1000);
 }
 
-/**
- * Gets the current direction.
- * @returns {Direction} The current direction.
- */
-export function getCurrentDirection() {
-    return currentDirection;
-}
-
-/**
- * Sets the current direction.
- * @param {Direction} direction
- */
-export function setCurrentDirection(direction) {
-    currentDirection = direction;
-}
-
-function onDirectionInput(direction) {
-    const { stage } = scene;
-    if (stage == null) {
-        return;
-    }
-
-    const { farmer, mousetraps } = stage;
-    if (farmer.isAdvanceable() || inputBuffer.length > 0) {
-        // Limit the queued inputs or it starts to feel very laggy.
-        if (inputBuffer.length < inputLimit) {
-            inputBuffer.push(direction);
-        }
-        return;
-    }
-
-    moveFarmer(direction);
-}
-
 function onGameEnd() {
     const { stage } = scene;
     const { stageState } = stage;
@@ -162,7 +125,7 @@ function onGameEnd() {
     }
 }
 
-function moveFarmer(direction) {
+export function moveFarmer(direction) {
     const { stage } = scene;
     const { farmer, mousetraps } = stage;
 
@@ -208,8 +171,8 @@ function moveMice() {
     }
 }
 
-function layTrap() {
-    const { stage } = this.scene;
+export function layTrap() {
+    const { stage } = scene;
     const { farmer } = stage;
 
     stage.layTrap(farmer);
