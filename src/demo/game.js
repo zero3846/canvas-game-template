@@ -41,7 +41,7 @@ async function loadAssets() {
  * is called.
  * @param {number} currentTime The time in milliseconds since page load.
  */
-export function onFrameUpdate(currentTime) {
+function onFrameUpdate(currentTime) {
 
 }
 
@@ -49,7 +49,7 @@ export function onFrameUpdate(currentTime) {
  * Render the game based on the current game state.
  * @param {CanvasRenderingContext2D} context 
  */
-export function onFrameRender(context) {
+function onFrameRender(context) {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
     let x = 128;
