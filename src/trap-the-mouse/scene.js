@@ -64,3 +64,9 @@ export class Scene extends Renderable {
         }
     }
 }
+
+const scene = new Scene();
+
+export function getScene() {
+    return scene;
+}

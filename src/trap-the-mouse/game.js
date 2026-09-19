@@ -10,16 +10,8 @@ import mousetrap_set_url from "./images/mousetrap_set.png";
 import mousetrap_swing_url from "./images/mousetrap_swing.png";
 import mousetrap_whack_url from "./images/mousetrap_whack.png";
 import { advanceDirectionQueue, setupInputEventHandlers } from "./inputs.js";
-import { Scene } from "./scene.js";
+import { getScene, Scene } from "./scene.js";
 import { isSameCoord, StageState } from "./stage.js";
-
-/**
- * The current direction the player is headed.
- * @type {Direction}
- */
-let currentDirection = Direction.NONE;
-
-const scene = new Scene();
 
 enableDebug(true);
 registerDebugWatch("keydown");
@@ -58,16 +50,13 @@ export function getLoadProgress() {
     return assetsLoaded / assetsToLoad;
 }
 
-export function getScene() {
-    return scene;
-}
-
 /**
  * Update the game state whenever the requested animation frame callback
  * is called.
  * @param {number} currentTime The time in milliseconds since page load.
  */
 function onFrameUpdate(currentTime) {
+    const scene = getScene();
     const { stage } = scene;
     if (stage == null) {
         return;
@@ -106,15 +95,18 @@ function onFrameUpdate(currentTime) {
  * @param {CanvasRenderingContext2D} context 
  */
 function onFrameRender(context) {
+    const scene = getScene();
     scene.renderLayers(context);
 }
 
 function onAssetsReady() {
+    const scene = getScene();
     scene.loadStage(0);
     setInterval(() => moveMice(), 1000);
 }
 
 function onGameEnd() {
+    const scene = getScene();
     const { stage } = scene;
     const { stageState } = stage;
 
@@ -136,7 +128,7 @@ export function moveFarmer(direction) {
 }
 
 function moveMice() {
-    const { stage } = scene;
+    const { stage } = getScene();
     const { farmer, mice, mousetraps } = stage;
 
     const directions = [
@@ -172,7 +164,7 @@ function moveMice() {
 }
 
 export function layTrap() {
-    const { stage } = scene;
+    const { stage } = getScene();
     const { farmer } = stage;
 
     stage.layTrap(farmer);

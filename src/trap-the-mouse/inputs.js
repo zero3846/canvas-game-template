@@ -1,6 +1,7 @@
 import { enableDebug, isDebugEnabled, updateDebugWatch } from "../core/debug.js";
 import { Direction } from "./direction.js";
-import { getScene, layTrap, moveFarmer } from "./game.js";
+import { layTrap, moveFarmer } from "./game.js";
+import { getScene } from "./scene.js";
 
 
 let directionQueue = [];
