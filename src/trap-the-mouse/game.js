@@ -2,13 +2,6 @@ import { enableDebug, registerDebugWatch } from "../core/debug.js";
 import { getImage, loadImage } from "../core/images.js";
 import { setFramerate, startMainLoop } from "../core/setup.js";
 import { Direction } from "./direction.js";
-import cheese_url from "./images/cheese.png";
-import farmer_url from "./images/farmer.png";
-import mouse_url from "./images/mouse.png";
-import mousetrap_base_url from "./images/mousetrap_base.png";
-import mousetrap_set_url from "./images/mousetrap_set.png";
-import mousetrap_swing_url from "./images/mousetrap_swing.png";
-import mousetrap_whack_url from "./images/mousetrap_whack.png";
 import { advanceDirectionQueue, setupInputEventHandlers } from "./inputs.js";
 import { getScene, Scene } from "./scene.js";
 import { isSameCoord, StageState } from "./stage.js";
@@ -18,37 +11,8 @@ registerDebugWatch("keydown");
 
 setFramerate(15);
 setupInputEventHandlers();
-
-const promises = [
-    loadImage("mouse", mouse_url),
-    loadImage("cheese", cheese_url),
-    loadImage("farmer", farmer_url),
-    loadImage("mousetrap_base", mousetrap_base_url),
-    loadImage("mousetrap_set", mousetrap_set_url),
-    loadImage("mousetrap_swing", mousetrap_swing_url),
-    loadImage("mousetrap_whack", mousetrap_whack_url),
-];
-
-let assetsLoaded = 0;
-let assetsToLoad = promises.length;
-const tracked = promises.map(p => p.then(r => {
-    assetsLoaded++;
-    return r;
-}))
-
-Promise.all(tracked).then(r => {
-    onAssetsReady();
-});
-
 startMainLoop(onFrameUpdate, onFrameRender);
-
-/** 
- * Gets the load progress of the assets.
- * @returns {number} The fraction of assets that are loaded.
- */
-export function getLoadProgress() {
-    return assetsLoaded / assetsToLoad;
-}
+loadAssets();
 
 /**
  * Update the game state whenever the requested animation frame callback
@@ -99,7 +63,7 @@ function onFrameRender(context) {
     scene.renderLayers(context);
 }
 
-function onAssetsReady() {
+export function onAssetsReady() {
     const scene = getScene();
     scene.loadStage(0);
     setInterval(() => moveMice(), 1000);
