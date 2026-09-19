@@ -4,14 +4,15 @@ import { setFramerate, startMainLoop } from "../core/setup.js";
 import { Direction } from "./direction.js";
 import { advanceDirectionQueue, setupInputEventHandlers } from "./inputs.js";
 import { getScene, Scene } from "./scene.js";
+import { loadAssets } from "./splash.js";
 import { isSameCoord, StageState } from "./stage.js";
 
 enableDebug(true);
 registerDebugWatch("keydown");
 
 setFramerate(15);
-setupInputEventHandlers();
 startMainLoop(onFrameUpdate, onFrameRender);
+setupInputEventHandlers();
 loadAssets();
 
 /**
@@ -82,7 +83,7 @@ function onGameEnd() {
 }
 
 export function moveFarmer(direction) {
-    const { stage } = scene;
+    const { stage } = getScene();
     const { farmer, mousetraps } = stage;
 
     if (stage.isMoveAllowed(farmer, direction)) {

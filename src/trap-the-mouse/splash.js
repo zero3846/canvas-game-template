@@ -1,4 +1,5 @@
-import { getLoadProgress, onAssetsReady } from "./game.js";
+import { loadImage } from "../core/images.js";
+import { onAssetsReady } from "./game.js";
 import cheese_url from "./images/cheese.png";
 import farmer_url from "./images/farmer.png";
 import mouse_url from "./images/mouse.png";
