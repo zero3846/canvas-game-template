@@ -2,8 +2,6 @@ import { enableDebug, registerDebugWatch } from "../core/debug.js";
 import { getImage, loadImage } from "../core/images.js";
 import { setFramerate, startMainLoop } from "../core/setup.js";
 import { Direction } from "./direction.js";
-import { setupInputEventHandlers } from "./inputs.js";
-
 import cheese_url from "./images/cheese.png";
 import farmer_url from "./images/farmer.png";
 import mouse_url from "./images/mouse.png";
@@ -11,6 +9,8 @@ import mousetrap_base_url from "./images/mousetrap_base.png";
 import mousetrap_set_url from "./images/mousetrap_set.png";
 import mousetrap_swing_url from "./images/mousetrap_swing.png";
 import mousetrap_whack_url from "./images/mousetrap_whack.png";
+import { setupInputEventHandlers } from "./inputs.js";
+import { Scene } from "./scene.js";
 
 /**
  * The current direction the player is headed.
@@ -18,10 +18,13 @@ import mousetrap_whack_url from "./images/mousetrap_whack.png";
  */
 let currentDirection = Direction.NONE;
 
-/**
- * A flag to indicate whether all assets are loaded.
- */
-let assetsLoaded = false;
+/** @type {number} */
+let assetsLoaded = 0;
+
+/** @type {number} */
+let assetsToLoad = 0;
+
+const scene = new Scene();
 
 enableDebug(true);
 registerDebugWatch("keydown");
@@ -29,7 +32,7 @@ registerDebugWatch("direction", Direction.toString(getCurrentDirection()));
 
 setFramerate(15);
 setupInputEventHandlers();
-loadAssets().then(r => assetsLoaded = true);
+loadAssets();
 startMainLoop(onFrameUpdate, onFrameRender);
 
 /**
@@ -37,7 +40,7 @@ startMainLoop(onFrameUpdate, onFrameRender);
  * @returns {Promise} A promise that resolves when all assets have been loaded.
  */
 async function loadAssets() {
-    return Promise.all([
+    const promises = [
         loadImage("mouse", mouse_url),
         loadImage("cheese", cheese_url),
         loadImage("farmer", farmer_url),
@@ -45,7 +48,25 @@ async function loadAssets() {
         loadImage("mousetrap_set", mousetrap_set_url),
         loadImage("mousetrap_swing", mousetrap_swing_url),
         loadImage("mousetrap_whack", mousetrap_whack_url),
-    ]);
+    ];
+
+    assetsLoaded = 0;
+    assetsToLoad = promises.length;
+    const total = promises.length;
+    const tracked = promises.map(p => p.then(r => {
+        assetsLoaded++;
+        return r;
+    }))
+
+    return Promise.all(tracked);
+}
+
+/** 
+ * Gets the load progress of the assets.
+ * @returns {number} The fraction of assets that are loaded.
+ */
+export function getLoadProgress() {
+    return assetsLoaded / assetsToLoad;
 }
 
 /**
@@ -62,30 +83,7 @@ function onFrameUpdate(currentTime) {
  * @param {CanvasRenderingContext2D} context 
  */
 function onFrameRender(context) {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
-    let x = 128;
-    let y = 128;
-
-    if (assetsLoaded) {
-        const imageSize = 48;
-
-        let image = getImage("mouse");
-        if (image != null) {
-            context.drawImage(image, x, y, imageSize, imageSize);
-            x += imageSize;
-        }
-
-        image = getImage("cheese");
-        if (image != null) {
-            context.drawImage(image, x, y, imageSize, imageSize);
-            x += imageSize;
-        }
-    } else {
-        context.font = "bold 18pt Arial";
-        context.fillStyle = "red";
-        context.fillText("Assets not yet loaded.", x, y);
-    }
+    scene.renderLayers(context);
 }
 
 /**
