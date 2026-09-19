@@ -1,6 +1,7 @@
 import { getImage } from "../core/images.js";
+import { RenderLayer } from "../core/layers.js";
 import { Direction } from "./direction.js";
-import { Layer, Renderable } from "./renderable.js";
+import { Renderable } from "./renderable.js";
 
 export class Sprite extends Renderable {
     constructor(type, state, cellSize) {
@@ -83,12 +84,12 @@ export class Sprite extends Renderable {
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
-     * @param {number} layer
+     * @param {RenderLayer} layer
      */
     renderObject(context, layer) {
         const { type, cellSize } = this;
 
-        if (layer === Layer.SPRITE) {
+        if (layer === RenderLayer.SPRITES) {
             const image = getImage(type);
             context.drawImage(image, 0, 0, cellSize, cellSize);
         }
@@ -126,19 +127,19 @@ export class MouseTrap extends Sprite {
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
-     * @param {number} layer
+     * @param {RenderLayer} layer
      */
     renderObject(context, layer) {
         const { state, cellSize } = this;
 
-        if (layer === Layer.LOW_SPRITE) {
+        if (layer === RenderLayer.LOW_SPRITES) {
             const image = getImage("mousetrap_base");
             context.drawImage(image, 0, 0, cellSize, cellSize);
             if (state === "set" || this.isAdvanceable()) {
                 const image = getImage("mousetrap_set");
                 context.drawImage(image, 0, 0, cellSize, cellSize);
             }
-        } else if (layer === Layer.HIGH_SPRITE) {
+        } else if (layer === RenderLayer.HIGH_SPRITES) {
             if (state === "triggered" && !this.isAdvanceable()) {
                 const images = [
                     getImage("mousetrap_whack"),
@@ -166,12 +167,12 @@ export class Cheese extends Sprite {
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
-     * @param {number} layer
+     * @param {RenderLayer} layer
      */
     renderObject(context, layer) {
         const { type, cellSize } = this;
 
-        if (layer === Layer.LOW_SPRITE) {
+        if (layer === RenderLayer.LOW_SPRITES) {
             const image = getImage(type);
             context.drawImage(image, 0, 0, cellSize, cellSize);
         }

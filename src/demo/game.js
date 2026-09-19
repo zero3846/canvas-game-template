@@ -1,8 +1,8 @@
 import { enableDebug, registerDebugWatch } from "../core/debug.js";
+import { RenderLayer } from "../core/layers.js";
 import { setFramerate, startMainLoop } from "../core/setup.js";
 import { Direction, getCurrentDirection } from "./direction.js";
 import { setupInputEventHandlers } from "./inputs.js";
-import { RenderLayer } from "./layers.js";
 import { loadAssets } from "./load-screen.js";
 import { renderScene } from "./scene.js";
 

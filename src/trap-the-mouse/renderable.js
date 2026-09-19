@@ -1,11 +1,4 @@
-export const Layer = {
-    BACKGROUND: 0,
-    LOW_WALL: 1,
-    LOW_SPRITE: 2,
-    SPRITE: 3,
-    HIGH_SPRITE: 4,
-    FOREGROUND: 5
-}
+import { RenderLayer } from "../core/layers";
 
 export class Renderable {
     constructor() {
@@ -82,11 +75,8 @@ export class Renderable {
      * @param {CanvasRenderingContext2D} context
      */
     renderLayers(context) {
-        this.render(context, Layer.BACKGROUND);
-        this.render(context, Layer.LOW_WALL);
-        this.render(context, Layer.LOW_SPRITE);
-        this.render(context, Layer.SPRITE);
-        this.render(context, Layer.HIGH_SPRITE);
-        this.render(context, Layer.FOREGROUND);
+        for (let layer = RenderLayer.FIRST; layer <= RenderLayer.LAST; ++layer) {
+            this.render(context, layer);
+        }
     }
 }

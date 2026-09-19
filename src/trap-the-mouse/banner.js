@@ -1,4 +1,5 @@
-import { Layer, Renderable } from "./renderable.js";
+import { RenderLayer } from "../core/layers.js";
+import { Renderable } from "./renderable.js";
 
 export class Banner extends Renderable {
     constructor() {
@@ -9,7 +10,7 @@ export class Banner extends Renderable {
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
-     * @param {number} layer 
+     * @param {RenderLayer} layer 
      */
     renderObject(context, layer) {
         const { width, height } = context.canvas;
@@ -18,7 +19,7 @@ export class Banner extends Renderable {
         const borderColor = "#bb1826";
         const textColor = borderColor;
 
-        if (layer === Layer.FOREGROUND && this.message != null) {
+        if (layer === RenderLayer.FOREGROUND && this.message != null) {
             context.font = "bold 30px Arial";
 
             const metrics = context.measureText(this.message);

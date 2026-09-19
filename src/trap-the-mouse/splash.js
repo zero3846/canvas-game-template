@@ -1,4 +1,5 @@
 import { loadImage } from "../core/images.js";
+import { RenderLayer } from "../core/layers.js";
 import { onAssetsReady } from "./game.js";
 import cheese_url from "./images/cheese.png";
 import farmer_url from "./images/farmer.png";
@@ -7,7 +8,7 @@ import mousetrap_base_url from "./images/mousetrap_base.png";
 import mousetrap_set_url from "./images/mousetrap_set.png";
 import mousetrap_swing_url from "./images/mousetrap_swing.png";
 import mousetrap_whack_url from "./images/mousetrap_whack.png";
-import { Layer, Renderable } from "./renderable.js";
+import { Renderable } from "./renderable.js";
 
 export class Splash extends Renderable {
     constructor() {
@@ -31,10 +32,10 @@ export class Splash extends Renderable {
         const progressBarBorder = "#657cee";
         const progressBarColor = "#bb1826";
 
-        if (layer === Layer.BACKGROUND) {
+        if (layer === RenderLayer.BACKGROUND) {
             context.fillStyle = backgroundColor;
             context.fillRect(0, 0, width, height);
-        } else if (layer === Layer.FOREGROUND) {
+        } else if (layer === RenderLayer.FOREGROUND) {
             const progressBarWidth = 600;
             const progressBarHeight = 80;
             const progressBarX = (width - progressBarWidth) / 2;

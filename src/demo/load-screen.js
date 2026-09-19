@@ -1,8 +1,8 @@
 import { loadImage } from "../core/images";
+import { RenderLayer } from "../core/layers";
 import { onAssetsReady } from "./game";
 import cheese_url from "./images/cheese.png";
 import mouse_url from "./images/mouse.png";
-import { RenderLayer } from "./layers";
 
 let assetsLoaded = 0;
 let assetsToLoad = 0;

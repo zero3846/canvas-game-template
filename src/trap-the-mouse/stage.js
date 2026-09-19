@@ -1,5 +1,6 @@
+import { RenderLayer } from "../core/layers.js";
 import { Direction } from "./direction.js";
-import { Layer, Renderable } from "./renderable.js";
+import { Renderable } from "./renderable.js";
 import { Cheese, Farmer, Mouse, MouseTrap, Sprite } from "./sprite.js";
 
 const CellValue = {
@@ -332,19 +333,19 @@ export class Stage extends Renderable {
     /**
      * 
      * @param {CanvasRenderingContext2D} context
-     * @param {number} layer 
+     * @param {RenderLayer} layer 
      */
     renderObject(context, layer) {
         const { cellSize, width, height } = this;
 
-        if (layer === Layer.BACKGROUND) {
+        if (layer === RenderLayer.BACKGROUND) {
             const floorColor = "#edd08c";
             const wallColor = "#bb1826";
 
             // Render floor
             context.fillStyle = floorColor;
             context.fillRect(0, 0, width, height);
-        } else if (layer === Layer.LOW_WALL) {
+        } else if (layer === RenderLayer.HIGH_BACKGROUND) {
             const wallColor = "#bb1826";
     
             // Prepare for rendering walls

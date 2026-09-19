@@ -1,5 +1,6 @@
+import { RenderLayer } from "../core/layers.js";
 import { Banner } from "./banner.js";
-import { Layer, Renderable } from "./renderable.js";
+import { Renderable } from "./renderable.js";
 import { Splash } from "./splash.js";
 import { getStage } from "./stage-layouts.js";
 
@@ -50,7 +51,7 @@ export class Scene extends Renderable {
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
-     * @param {number} layer 
+     * @param {RenderLayer} layer 
      */
     renderObject(context, layer) {
         const {
@@ -58,7 +59,7 @@ export class Scene extends Renderable {
             height: bh
         } = context.canvas.getBoundingClientRect();
 
-        if (layer === Layer.BACKGROUND) {
+        if (layer === RenderLayer.BACKGROUND) {
             // Clear the canvas
             context.clearRect(0, 0, bw, bh);
         }

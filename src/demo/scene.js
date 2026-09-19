@@ -1,9 +1,9 @@
 import { getImage } from "../core/images";
-import { RenderLayer } from "./layers";
+import { RenderLayer } from "../core/layers";
 import { assetsReady, renderLoadScreen } from "./load-screen";
 
 export function updateScene(currentTime) {
-    
+
 }
 
 export function renderScene(context, layer) {
